@@ -1,0 +1,32 @@
+---
+title: "MA Income"
+---
+
+```{r}
+#| message: false
+#| echo: false
+#| warning: false
+library(tidyverse)
+library(tidycensus)
+library(dplyr)
+
+# Set your Census API key
+
+# Load median income for Massachusetts from the American Community Survey (ACS)
+ma_income_tracts <- get_acs(
+  geography = "tract",
+  variables = "B19013_001",  # Median household income
+  state = "MA",
+  year = 2022,
+  survey = "acs5",
+  geometry = FALSE           # No map shapes, just the data
+)
+ggplot(ma_income_tracts, aes(x = estimate)) +
+  geom_histogram(binwidth = 5000, fill = "steelblue", color = "white") +
+  labs(
+    title = "Distribution of Median Household Income by Census Tract (MA, 2022)",
+    x = "Median Household Income (USD)",
+    y = "Number of Census Tracts"
+  ) +
+  theme_minimal()
+```
